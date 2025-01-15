@@ -9,9 +9,13 @@
 </head>
 <body>
 <h1>管理者用ログイン</h1>
-<form action="" method="post" name="admin"><!--action-->
-    <p>ログインID <input type="password" name="login"></p>
-    <p>パスワード <input type="password" name="password"></p>
+
+<c:if test="${not empty error}">
+<p>ログインIDかパスワードが正しくありません。</p>
+</c:if>
+<form action="/login" method="post"><!--action-->
+    <p>ログインID <input type="text" name="loginId"></p>
+    <p>パスワード <input type="password" name="loginPass"></p>
     <input type="submit" value="送信">
 </form>
 </body>
