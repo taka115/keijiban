@@ -8,7 +8,9 @@
 <title>掲示板</title>
 </head>
 <body>
-    <form action="" method="post" name="form1" onSubmit="return check()">  <!--actionタグ未設定-->
+
+    <h1>コメント掲示板</h1>
+    <form action="comment" method="post" name="form1" onSubmit="return check()">  <!--actionタグ未設定-->
         <p>名前:<br>
         <input type="text" name="name"></p>
         <p>コメント:<br>
@@ -16,6 +18,19 @@
         </p>
         <p><input type="submit" value="送信"><input type="reset" value="リセット"></p>
     </form>
+    
+    <h2>投稿されたコメント</h2>
+    <c:forEach var="comment" items="${comments}">
+        <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+            <p>
+                <strong>ID:</strong> ${comment.id}
+                <strong>名前:</strong> ${comment.name}
+                <strong>投稿日時:</strong> ${comment.createdAt}
+            </p>
+            <p>${comment.comment}</p>
+        </div>
+      </c:forEach>
+        
     <script>
         function check() {
             let flag = 0; // フラグ変数(エラーチェック)
