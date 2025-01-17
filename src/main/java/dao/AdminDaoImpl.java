@@ -53,7 +53,7 @@ public class AdminDaoImpl implements AdminDao {
 	public Admin findByLoginIdAndLoginPass(String loginId, String loginPass) throws Exception {
 		Admin admin = null;
 		try (Connection con = ds.getConnection()) {
-			String sql = "SELECT * FROM admins WHERE login_id=?";
+			String sql = "SELECT * FROM admin WHERE login_id=?";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, loginId);
 			ResultSet rs = stmt.executeQuery();
