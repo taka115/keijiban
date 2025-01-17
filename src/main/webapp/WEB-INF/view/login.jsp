@@ -13,7 +13,7 @@
 <c:if test="${not empty error}">
 <p>ログインIDかパスワードが正しくありません。</p>
 </c:if>
-<form action="/login" method="post"><!--action-->
+<form action="login"  method="post"><!--action-->
     <p>ログインID <input type="text" name="loginId"></p>
     <p>パスワード <input type="password" name="loginPass"></p>
     <input type="submit" value="送信">
