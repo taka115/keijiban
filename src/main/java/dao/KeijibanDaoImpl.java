@@ -67,6 +67,32 @@ public class KeijibanDaoImpl implements KeijibanDao {
 		}
 		
 	}
+
+	@Override
+	public List<Keijiban> findByKeyword(String keyword) throws Exception {
+		List<Keijiban> keijibanList = new ArrayList<>();
+		try (Connection con = ds.getConnection()) {
+			String sql = "SELECT * FROM keijiban WHERE name LIKE ? OR comment LIKE ? ORDER BY created_at ASC";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			String searchKeyword = "%" + keyword + "%"; // 部分一致のためのワイルドカード
+			stmt.setString(1, searchKeyword);
+			stmt.setString(2, searchKeyword);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Integer id = (Integer)rs.getObject("id");
+				String name = rs.getString("name");
+				String comment = rs.getString("comment");
+				Timestamp created_at = rs.getTimestamp("created_at");
+				Keijiban keijiban = new Keijiban(id, name, comment, created_at);
+				keijibanList.add(keijiban);
+			}
+			
+		} catch (Exception e) {
+			throw e;
+		}
+		System.out.println("検査結果:" + keijibanList);
+		return keijibanList;
+	}
 	
 	
 

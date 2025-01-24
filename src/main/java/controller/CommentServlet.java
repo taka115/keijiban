@@ -26,9 +26,20 @@ public class CommentServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			KeijibanDao keijibanDao = DaoFactory.createKeijibanDao();
-			 List<Keijiban> comments = keijibanDao.findAll();
-			 request.setAttribute("comments", comments);
-			 request.getRequestDispatcher("/WEB-INF/view/comment.jsp")
+			String keyword = request.getParameter("keyword");
+			List<Keijiban> comments;
+			
+			if (keyword != null && !keyword.trim().isEmpty()) {
+				// キーワードがある場合は検索
+				comments = keijibanDao.findByKeyword(keyword.trim());
+			} else {
+				// キーワードがない場合全件取得
+				comments = keijibanDao.findAll();
+			}
+			
+			request.setAttribute("keyword", keyword); // 検索フォームに入力値を保持するため
+			request.setAttribute("comments", comments);
+			request.getRequestDispatcher("/WEB-INF/view/comment.jsp")
 				.forward(request, response);
 		} catch (Exception e) {
 			throw new ServletException(e);
@@ -41,6 +52,7 @@ public class CommentServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			
 			String name = request.getParameter("name");
 			String comment = request.getParameter("comment");
 			

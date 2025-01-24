@@ -11,5 +11,7 @@ public interface KeijibanDao {
 	void insert(Keijiban keijiban) throws Exception;
 	
 	void delete(int id) throws Exception;
+	
+	List<Keijiban> findByKeyword(String keyword) throws Exception;
 
 }
