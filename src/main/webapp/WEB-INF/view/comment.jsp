@@ -4,33 +4,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>掲示板</title>
+   <meta charset="UTF-8">
+   <title>掲示板</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link href="bootstrap/bootstrap.min.css" rel="stylesheet">
+   <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .comment-card {
+            margin-bottom: 20px
+        }
+        </style>
 </head>
 <body>
 
-    <h1>コメント掲示板</h1>
-    <form action="comment" method="post" name="form1" onSubmit="return check()">  <!--actionタグ未設定-->
-        <p>名前:<br>
-        <input type="text" name="name"></p>
-        <p>コメント:<br>
-           <textarea name="comment" rows="5" cols="40"></textarea>
-        </p>
-        <p><input type="submit" value="送信"><input type="reset" value="リセット"></p>
-    </form>
-    
-    <h2>投稿されたコメント</h2>
-    <c:forEach var="comment" items="${comments}">
-        <div style="margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
-            <p>
-                <strong>ID:</strong> ${comment.id}
-                <strong>名前:</strong> ${comment.name}
-                <strong>投稿日時:</strong> ${comment.createdAt}
-            </p>
-            <p>${comment.comment}</p>
-        </div>
-      </c:forEach>
-        
+     <div class="container">
+         <h1 class="text-center mb-4">コメント掲示板</h1>
+         
+         
+         <form action="comment" method="post" name="form1" onsubmit="return check()">
+             <div class="mb-3">
+                  <label for="name" class="form-label">名前：</label>
+                  <input type="text" id="name" name="name" class="form-control" placeholder="お名前を入力してください" required>
+             </div>
+             <div ckass="mb-3">
+                  <label for="comment" class="form-label">コメント:</label>
+                  <textarea id="comment" name="comment" class="form-control" rows="5" placeholder="コメントを入力してください" required></textarea>
+             </div>
+              <div class="d-flex justify-content-between">
+                  <button type="submit" class="btn btn-primary">送信</button>
+                  <button type="reset" class="btn btn-secondary">リセット</button>
+            </div
+         </div>
+         
+     <div class="container my-5">
+         <hr class="my-4">
+         <!-- 投稿一覧 -->
+        <h2 class="text-center mb-4">投稿されたコメント</h2>
+        <c:forEach var="comment" items="${comments}">
+            <div class="card comment-card">
+                <div class="card-body">
+                    <p class="mb-1">
+                        <strong>ID:</strong> ${comment.id} <br>
+                        <strong>名前:</strong> ${comment.name} <br>
+                        <strong>投稿日時:</strong> 
+                        <fmt:formatDate value="${comment.createdAt}" pattern="yyyy/MM/dd HH:mm:ss" />
+                    </p>
+                    <p class="mt-2">${comment.comment}</p>
+                </div>
+            </div>
+        </c:forEach>
+     </div> 
+    <script src="bootstrap/bootstrap.bundle.min.js"></script>
     <script>
         function check() {
             let flag = 0; // フラグ変数(エラーチェック)
