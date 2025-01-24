@@ -27,18 +27,30 @@ public class CommentServlet extends HttpServlet {
 		try {
 			KeijibanDao keijibanDao = DaoFactory.createKeijibanDao();
 			String keyword = request.getParameter("keyword");
+			String pageParam = request.getParameter("page");
+			int page = (pageParam == null || pageParam.isEmpty()) ? 1 : Integer.parseInt(pageParam);
+			int limit = 10; // 1ページ当たりのアイテム数
+			
 			List<Keijiban> comments;
+			int totalComments = keijibanDao.countAll(); // コメントの総数を取得
 			
 			if (keyword != null && !keyword.trim().isEmpty()) {
 				// キーワードがある場合は検索
-				comments = keijibanDao.findByKeyword(keyword.trim());
+				keyword = keyword.trim();
+	            comments = keijibanDao.findByKeyword(keyword, page, limit);
+	            totalComments = keijibanDao.countByKeyword(keyword); // 検索結果の総件数を取得
 			} else {
 				// キーワードがない場合全件取得
 				comments = keijibanDao.findAll();
+				totalComments = keijibanDao.countAll(); // 全件数を取得
 			}
+			
+			int totalPages = (int) Math.ceil((double) totalComments / limit); // 総ページ数
 			
 			request.setAttribute("keyword", keyword); // 検索フォームに入力値を保持するため
 			request.setAttribute("comments", comments);
+			request.setAttribute("currentPage", page); // 現在のページ番号
+			request.setAttribute("totalPages", totalPages); // 総ページ数
 			request.getRequestDispatcher("/WEB-INF/view/comment.jsp")
 				.forward(request, response);
 		} catch (Exception e) {
