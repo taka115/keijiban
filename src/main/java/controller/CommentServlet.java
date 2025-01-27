@@ -41,7 +41,7 @@ public class CommentServlet extends HttpServlet {
 	            totalComments = keijibanDao.countByKeyword(keyword); // 検索結果の総件数を取得
 			} else {
 				// キーワードがない場合全件取得
-				comments = keijibanDao.findAll();
+				comments = keijibanDao.findAllPaged(page, limit);
 				totalComments = keijibanDao.countAll(); // 全件数を取得
 			}
 			

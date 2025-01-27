@@ -55,7 +55,7 @@
                   <button type="submit" class="btn btn-primary">送信</button>
                   <button type="reset" class="btn btn-secondary">リセット</button>
             </div
-         </div>
+         
          
      <div class="container my-5">
          <hr class="my-4">
@@ -84,7 +84,20 @@
                 </div>
             </div>   
         </c:forEach>
-     </div> 
+     
+     
+        <!-- ページネーション -->
+        <nav>
+           <ul class="pagination justify-content-center">
+               <c:forEach begin="1" end="${totalPages}" var="i">
+                 <li class="page-item ${i == currentPage ? 'active' : ''}">
+                   <a class="page-link" href="comment?page=${i}&keyword=${param.keyword}">${i}</a>
+                 </li>
+               </c:forEach>
+           </ul>
+        </nav>
+     </div>
+     </div>
      
     <script src="bootstrap/bootstrap.bundle.min.js"></script>
     <script>

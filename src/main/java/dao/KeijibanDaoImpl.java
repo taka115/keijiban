@@ -75,7 +75,7 @@ public class KeijibanDaoImpl implements KeijibanDao {
 		
 		try (Connection con = ds.getConnection()) {
 			String sql = "SELECT * FROM keijiban WHERE name LIKE ? OR comment LIKE ? "
-					 + "ORDER BY created_at DESC LIMT ? OFFSET ?";
+					 + "ORDER BY created_at ASC LIMIT ? OFFSET ?";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			String searchKeyword = "%" + keyword + "%"; // 部分一致のためのワイルドカード
 			stmt.setString(1, searchKeyword);
@@ -100,11 +100,11 @@ public class KeijibanDaoImpl implements KeijibanDao {
 	}
 
 	@Override
-	public List<Keijiban> findAll(int page, int limit) throws Exception {
+	public List<Keijiban> findAllPaged(int page, int limit) throws Exception {
 		int ofset = (page -1) * limit;
 		List<Keijiban> keijibanList = new ArrayList<>();
 		try (Connection con = ds.getConnection()) {
-			String sql = "SELECT * FROM keijiban ORDER BY created_at DESC LIMIT ? OFFSET ?";
+			String sql = "SELECT * FROM keijiban ORDER BY created_at ASC LIMIT ? OFFSET ?";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setInt(1, limit);
 			stmt.setInt(2, ofset);
