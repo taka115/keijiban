@@ -54,7 +54,7 @@
               <div class="d-flex justify-content-between">
                   <button type="submit" class="btn btn-primary">送信</button>
                   <button type="reset" class="btn btn-secondary">リセット</button>
-            </div
+            </div>
          
          
      <div class="container my-5">
